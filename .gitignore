@@ -1,0 +1,76 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Expo/React Native
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+*.apk
+*.aab
+*.ipa
+
+# Metro Bundler
+.metro/
+.metro-cache/
+
+# Build Artifacts
+build/
+dist/
+out/
+
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# IDE/Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.log
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Coverage Reports
+coverage/
+*.lcov
+
+# Local Development
+*.local
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency Caches
+.pnp.*
+.pnp.js
+.cache/
+.eslintcache
+.prettiercache
+.stylelintcache
