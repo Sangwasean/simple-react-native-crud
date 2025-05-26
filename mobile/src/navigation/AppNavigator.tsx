@@ -11,7 +11,7 @@ import { Product } from '../api/api';
 export type RootStackParamList = {
   Login: { email?: string } | undefined;
   SignUp: undefined;
-  ProductList: undefined;
+  ProductList: { refresh?: boolean } | undefined;
   AddProduct: { product?: Product } | undefined;
   Profile: undefined;
 };

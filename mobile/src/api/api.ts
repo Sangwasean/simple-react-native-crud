@@ -57,59 +57,46 @@ export const logout = async (): Promise<void> => {
   await AsyncStorage.removeItem('user');
 };
 
-
 export async function getProducts(): Promise<Product[]> {
   try {
-    const token = await AsyncStorage.getItem('token');
-    console.log('Fetching products with token:', token); // Debug
-    const response = await fetch('http://10.0.2.2:8000/products', {
-      method: 'GET',
-      headers: {
-        'Authorization': token ? `Bearer ${token}` : '',
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log('Response status:', response.status); // Debug
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('Raw products response:', data); // Debug
-    return Array.isArray(data.products) ? data.products : [];
-  } catch (error) {
-    console.error('getProducts error:', error);
+    const response = await api.get('/products');
+    console.log('Raw products response:', response.data);
+    return Array.isArray(response.data.products) ? response.data.products : [];
+  } catch (error: any) {
+    console.error('getProducts error:', error.message, error.stack);
+    throw error;
+  }
+}
+
+export async function createProduct(product: Omit<Product, 'id' | 'userId' | 'createdAt' | 'updatedAt'>): Promise<Product> {
+  try {
+    const response = await api.post('/products', product);
+    console.log('Create product response:', response.data);
+    return response.data.product || response.data;
+  } catch (error: any) {
+    console.error('createProduct error:', error.message, error.stack);
+    throw error;
+  }
+}
+
+export async function updateProduct(id: string, product: Partial<Omit<Product, 'id' | 'userId' | 'createdAt' | 'updatedAt'>>): Promise<Product> {
+  try {
+    const response = await api.put(`/products/${id}`, product);
+    console.log('Update product response:', response.data);
+    return response.data.product || response.data;
+  } catch (error: any) {
+    console.error('updateProduct error:', error.message, error.stack);
     throw error;
   }
 }
 
 export async function deleteProduct(id: string): Promise<void> {
   try {
-    const token = await AsyncStorage.getItem('token');
-    const response = await fetch(`http://10.0.2.2:8000/products/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': token ? `Bearer ${token}` : '',
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-  } catch (error) {
-    console.error('deleteProduct error:', error);
+    await api.delete(`/products/${id}`);
+  } catch (error: any) {
+    console.error('deleteProduct error:', error.message, error.stack);
     throw error;
   }
 }
-
-export const createProduct = async (product: Omit<Product, 'id'>): Promise<Product> => {
-  const response = await api.post('/products', product);
-  return response.data;
-};
-
-export const updateProduct = async (id: number, product: Omit<Product, 'id'>): Promise<Product> => {
-  const response = await api.put(`/products/${id}`, product);
-  return response.data;
-};
-
 
 export default api;
